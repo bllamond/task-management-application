@@ -11,7 +11,7 @@ const SignUp = () => {
   const handleRegister = (event) => {
     event.preventDefault();
     axios
-      .post('http://localhost:5000/auth/register', { email, password })
+      .post('https://task-management-application-xgnp.onrender.com/auth/register', { email, password })
       .then(() => {
         alert('Registration Successful');
         setEmail('');

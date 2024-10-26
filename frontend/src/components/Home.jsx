@@ -25,6 +25,7 @@ const Home = () => {
                     <li>Toggle task status between pending and completed</li>
                     <li>JWT-based authentication for secure user login</li>
                     <li>View tasks specific to your account</li>
+                    <li>Responsive Web Design </li>
                 </ul>
             </div>
             <button

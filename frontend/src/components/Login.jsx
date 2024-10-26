@@ -12,16 +12,15 @@ const Login = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const response = await axios.post('http://localhost:5000/auth/login', { email, password });
+      const response = await axios.post('https://task-management-application-xgnp.onrender.com/auth/login', { email, password });
       const token = response.data.token;
       localStorage.setItem('token', token);
-
       setIsLoading(false);
       navigate('/tasks');
     } catch (error) {
       console.log('Unable to login user:', error);
       alert('Login failed. Please try again.');
-      setIsLoading(false); // Ensure loading state is reset on error
+      setIsLoading(false); 
     }
   };
 

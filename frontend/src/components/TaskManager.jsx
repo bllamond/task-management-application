@@ -10,7 +10,7 @@ const TaskManager = () => {
     const token = localStorage.getItem('token');
     const [isLoading , setIsLoading] = useState(false)
     const axiosInstance = axios.create({
-        baseURL: 'http://localhost:5000/api',
+        baseURL: 'https://task-management-application-xgnp.onrender.com/api',
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -19,17 +19,19 @@ const TaskManager = () => {
     const fetchTasks = async () => {
         try {
 
-            setIsLoading(true);
+            
             const response = await axiosInstance.get('/tasks');
             setTasks(response.data);
-            setIsLoading(false);
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
     };
 
     useEffect(() => {
+        setIsLoading(true);
         fetchTasks();
+        setIsLoading(false);
+
     }, []);
 
     const addTask = async () => {
