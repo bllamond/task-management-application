@@ -1,42 +1,24 @@
-import React, { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
 import Login from './components/Login';
-import Signup from './components/Signup';
 import TaskManager from './components/TaskManager';
+import Navbar from './components/Header';
+import SignUp from './components/Signup';
 
-const App = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
-    const [showSignup, setShowSignup] = useState(false);
+function App() {
+  return (
+    <div>
+    <BrowserRouter>
+    <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path='/login' element = { <Login /> } />
+        <Route path='/register' element = { <SignUp /> } />
+        <Route path='/tasks' element = { <TaskManager /> } />
+      </Routes>
+    </BrowserRouter>
+    </div>
+  );
+}
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
-    };
-
-    return (
-        <div>
-            {!isAuthenticated ? (
-                showSignup ? (
-                    <Signup />
-                ) : (
-                    <Login onLogin={() => setIsAuthenticated(true)} />
-                )
-            ) : (
-                <div>
-                    <TaskManager onLogout={handleLogout} />
-                </div>
-            )}
-            {!isAuthenticated && (
-                <div className="text-center">
-                    <button
-                        onClick={() => setShowSignup(!showSignup)}
-                        className="text-blue-500 hover:underline"
-                    >
-                        {showSignup ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
-                    </button>
-                </div>
-            )}
-        </div>
-    );
-};
-
-export default App;
+export default App
