@@ -6,7 +6,6 @@ const router = express.Router();
 router.post('/tasks', auth, async (req, res) => {
     try {
         const { title, description } = req.body;
-        console.log(title , 'titlte');
         const task = new Task({
             title,
             description,

@@ -4,10 +4,11 @@ import Login from './components/Login';
 import TaskManager from './components/TaskManager';
 import Navbar from './components/Header';
 import SignUp from './components/Signup';
+import { useEffect } from 'react';
 
 function App() {
   return (
-    <div>
+    <div className='bg-gray-200'>
     <BrowserRouter>
     <Navbar />
       <Routes>
