@@ -116,14 +116,17 @@ const TaskManager = () => {
                             <strong>{task.title}</strong> - {task.description}
                         </div>
                         <div>
-                            {task.status === 'pending' && (
-                                <button
-                                    className="bg-blue-500 text-white p-1 mr-2"
-                                    onClick={() => updateTaskStatus(task._id, 'completed')}
-                                >
-                                    Mark as Completed
-                                </button>
-                            )}
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={task.status === 'completed'}
+                                    onChange={() => {
+                                        const newStatus = task.status === 'completed' ? 'pending' : 'completed';
+                                        updateTaskStatus(task._id, newStatus);
+                                    }}
+                                />
+                                {task.status === 'completed' ? 'Completed' : 'Pending'}
+                            </label>
                             <button
                                 className="bg-yellow-500 text-white p-1 mr-2"
                                 onClick={() => startEditing(task)}

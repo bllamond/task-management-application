@@ -8,22 +8,23 @@ require('dotenv').config();
 SECRET_KEY = process.env.JWT_SECRET
 
 router.post('/register', async (req, res) => {
-
     try {
-        console.log(SECRET_KEY);
         const { email, password } = req.body;
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ msg: 'Email already registered.' });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
-
         const newUser = new User({ email, password: hashedPassword });
-        await newUser.save();
 
+        await newUser.save();
         res.status(201).json({ msg: 'User created successfully' });
     } catch (error) {
-        if (error.code === 11000) {
-            return res.status(400).json({ msg: 'Email already exists' });
-        }
-        console.log("Error", error);
-        res.status(500).json({ msg: 'Error creating user' });
+        console.error("Error creating user:", error);
+        res.status(500).json({ msg: 'Error creating user', error });
     }
 });
 
@@ -40,23 +41,23 @@ router.get('/register', async(req, res) => {
 })
 
 router.post('/login', async(req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     try {
         const { email, password} = req.body
         const user = await User.findOne({email});
-        console.log(user);
+        // console.log(user);
         if(!user){
             return res.status(400).json({error: "Invalid Credential"})
         }
         
         const isPasswordValid = await bcrypt.compare(password, user.password);
-        console.log(isPasswordValid , 'validPass');
-        console.log(SECRET_KEY);
+        // console.log(isPasswordValid , 'validPass');
+        // console.log(SECRET_KEY);
         if(!isPasswordValid){
             return res.status(401).json({error: "Invalid Credentials"})
         }
         const token = jwt.sign({userID: user._id}, SECRET_KEY, { expiresIn: '1hr' })
-        console.log(token);
+        // console.log(token);
         res.json({message: "Login Successfully" , token})
     } catch (error) {
         console.log(error);
